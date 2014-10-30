@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Type</title>
+		<meta name="description" content="A clear and uncluttered writing environment that saves as you type.">
+		<link rel="stylesheet" href="style.css">
+		<link href='http://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'>
+		<meta name="apple-mobile-web-app-title" content="Type">
+		<link rel="apple-touch-icon" href="apple-touch-icon.png">
+		<link rel="icon" href="favicon.png">
+		<!--[if IE]><link rel="shortcut icon" href="favicon.ico"><![endif]-->
+		<meta name="msapplication-TileColor" content="#F7F7F7">
+		<meta name="msapplication-TileImage" content="tile-icon.png">
+	</head>
+	<body>
+		<textarea name="type" id="type" onkeyup="localStorage.setItem('type', this.value);">Welcome to Type!
+
+A clear and uncluttered writing environment that saves as you type.
+
+Just write...</textarea>
+	<script>
+		if (localStorage.getItem("type")) {
+			document.getElementById("type").value = localStorage.getItem("type");
+		}
+	</script>
+	</body>
+</html>

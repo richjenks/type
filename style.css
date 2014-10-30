@@ -1,0 +1,54 @@
+/* Box Sizing */
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
+/* Reset */
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+/* Type! */
+textarea {
+
+	/* Position */
+	width: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+	/* Typography */
+	font-family: 'PT Mono', monospace;
+	line-height: 1.6em;
+	font-size: 1.2em;
+	color: #222;
+
+	/* Appearance */
+	padding: 1em;
+	border: none;
+	resize:none;
+	background: #f7f7f7;
+	box-shadow: 0 0 20px #f7f7f7 inset;
+
+}
+
+textarea:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: red;
+}
+
+/* Remove blue glow */
+textarea:focus { outline: none; }
+
+/* Fixed width on large screens */
+@media all and (min-width: 1024px) { textarea { padding: 1em calc(50% - 25em); } }
