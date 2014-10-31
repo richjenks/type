@@ -51,4 +51,4 @@ textarea:after {
 textarea:focus { outline: none; }
 
 /* Fixed width on large screens */
-@media all and (min-width: 1024px) { textarea { padding: 1em calc(50% - 25em); } }
+@media all and (min-width: 1024px) { textarea { padding: 1em calc(50% - 30em); } }
