@@ -27,6 +27,7 @@ textarea {
 	line-height: 1.6em;
 	font-size: 1em;
 	color: #222;
+	tab-size: 4;
 
 	/* Appearance */
 	padding: 1em;
