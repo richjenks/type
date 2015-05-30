@@ -5,7 +5,6 @@ if (localStorage.getItem("type")) {
 
 // Save content
 function save(text) {
-	console.log(text);
 	localStorage.setItem('type', text);
 	document.title = text.split('\n')[0];
 }
