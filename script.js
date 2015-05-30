@@ -3,6 +3,13 @@ if (localStorage.getItem("type")) {
 	document.getElementById("type").value = localStorage.getItem("type");
 }
 
+// Save content
+function save(text) {
+	console.log(text);
+	localStorage.setItem('type', text);
+	document.title = text.split('\n')[0];
+}
+
 // Enable tab key - see http://jsfiddle.net/2wAzx/13/
 function enableTab(id) {
 	var el = document.getElementById(id);
