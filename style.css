@@ -26,25 +26,25 @@ textarea {
 	font-family: 'PT Mono', monospace;
 	line-height: 1.6em;
 	font-size: 1em;
-	color: #222;
 	tab-size: 4;
 
 	/* Appearance */
 	padding: 1em;
 	border: none;
 	resize:none;
-	box-shadow: 0 0 20px #f7f7f7 inset;
 
-	/* Background */
-	background: rgba(255, 255, 255, 1);
-	background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(247, 247, 247, 1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(100%, rgba(247, 247, 247, 1)));
-	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(247, 247, 247, 1) 100%);
-	background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(247, 247, 247, 1) 100%);
-	background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(247, 247, 247, 1) 100%);
-	background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(247, 247, 247, 1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f7f7', GradientType=0 );
+}
 
+/* Light Theme */
+.light {
+	color: #263238;
+	background: #f7f7f7;
+}
+
+/* Dark Theme */
+.dark {
+	color: #b2ccd6;
+	background: #263238;
 }
 
 /* Note Title */
@@ -56,4 +56,4 @@ textarea:first-line {
 textarea:focus { outline: none; }
 
 /* Fixed width on large screens */
-@media all and (min-width: 1024px) { textarea { padding: 1em calc(50% - 30em); } }
+@media all and (min-width: 1024px) { textarea { padding: 1.6em calc(50% - 30em); } }
