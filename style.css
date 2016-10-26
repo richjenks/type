@@ -47,6 +47,7 @@ textarea {
 
 }
 
+/* Note Title */
 textarea:first-line {
 	font-size: 1.6em;
 }
