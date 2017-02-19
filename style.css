@@ -23,7 +23,7 @@ textarea {
 	left: 0;
 
 	/* Typography */
-	font-family: 'PT Mono', monospace;
+	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 	line-height: 1.6em;
 	font-size: 1em;
 	tab-size: 4;
