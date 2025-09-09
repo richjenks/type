@@ -1,5 +1,10 @@
 # Type
 
-A clean and uncluttered writing environment with offline support that saves as you type
+Distraction-free writing with offline support
+100% private autosave without login (localStorage)
+Comfortable, reader-friendly typography and colours
 
-Try the demo: https://richjenks.com/dev/type/
+https://richjenks.com/dev/type/
+https://github.com/richjenks/type
+
+Just write…

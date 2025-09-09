@@ -1,8 +1,21 @@
-/* Box Sizing */
-html { box-sizing: border-box; }
-*, *:before, *:after { box-sizing: inherit; }
+/* Constants */
+:root {
+	--phi: 1.618rem;
+	--width: 50rem;
+	--bg: #002b36;
+	--fg: rgba(255, 255, 255, 0.8);
+}
+
+/* Light Mode override */
+@media (prefers-color-scheme: light) {
+	:root {
+		--bg: #fdf6e3;
+		--fg: rgba(0, 0, 0, 0.8);
+	}
+}
 
 /* Reset */
+* { box-sizing: border-box; }
 html,
 body {
 	margin: 0;
@@ -14,46 +27,31 @@ body {
 /* Type! */
 textarea {
 
+	/* Colour theme */
+	background: var(--bg);
+	color: var(--fg);
+
 	/* Position */
-	width: 100%;
 	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+	width: 100%;
+	inset: 0;
 
 	/* Typography */
-	font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-	line-height: 1.6em;
-	font-size: 1em;
+	font-family: Menlo, Consolas, Monaco, Adwaita Mono, Liberation Mono, Lucida Console, monospace;
+	line-height: var(--phi);
+	font-size: 1rem;
 	tab-size: 4;
 
 	/* Appearance */
-	padding: 1em;
+	padding-inline: max(calc((100% - var(--width)) / 2), var(--phi));
+	padding-block: var(--phi);
+	outline: none;
 	border: none;
-	resize:none;
-
-}
-
-/* Light Theme */
-.light {
-	color: #263238;
-	background: #f7f7f7;
-}
-
-/* Dark Theme */
-.dark {
-	color: #b2ccd6;
-	background: #263238;
+	resize: none;
 }
 
 /* Note Title */
 textarea:first-line {
-	font-size: 1.6em;
+	font-size: var(--phi);
+	line-height: 2rem;
 }
-
-/* Remove blue glow */
-textarea:focus { outline: none; }
-
-/* Fixed width on large screens */
-@media all and (min-width: 1024px) { textarea { padding: 1.6em calc(50% - 30em); } }
