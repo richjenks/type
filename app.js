@@ -1,5 +1,4 @@
 const STORAGE_KEY = 'type';
-const SW_URL = 'offline.js';
 
 const debounce = (fn, delay = 200) => {
 	let timeoutId;
@@ -63,71 +62,4 @@ const attachEditor = () => {
 	});
 };
 
-const attachControllerChangeReload = () => {
-	let refreshing = false;
-	let hadController = Boolean(navigator.serviceWorker.controller);
-	navigator.serviceWorker.addEventListener('controllerchange', () => {
-		const isUpdate = hadController;
-		hadController = true;
-		if (!isUpdate) {
-			return;
-		}
-
-		if (refreshing) {
-			return;
-		}
-		refreshing = true;
-		window.location.reload();
-	});
-};
-
-const requestWaitingActivation = (registration) => {
-	if (registration.waiting) {
-		// Opcode `1` is handled in offline.js message handler as "skip waiting".
-		registration.waiting.postMessage(1);
-	}
-};
-
-const watchForServiceWorkerUpdates = (registration) => {
-	registration.addEventListener('updatefound', () => {
-		const installing = registration.installing;
-		if (!installing) {
-			return;
-		}
-
-		installing.addEventListener('statechange', () => {
-			if (installing.state === 'installed' && navigator.serviceWorker.controller) {
-				requestWaitingActivation(registration);
-			}
-		});
-	});
-};
-
-const startServiceWorkerUpdatePolling = (registration, intervalMs = 60 * 60 * 1000) => {
-	window.setInterval(() => {
-		registration.update().catch(() => {
-			// Keep editor usable if update checks fail temporarily.
-		});
-	}, intervalMs);
-};
-
-const setupServiceWorker = async () => {
-	if (!('serviceWorker' in navigator)) {
-		return;
-	}
-
-	attachControllerChangeReload();
-
-	try {
-		const registration = await navigator.serviceWorker.register(SW_URL);
-		requestWaitingActivation(registration);
-		void registration.update();
-		watchForServiceWorkerUpdates(registration);
-		startServiceWorkerUpdatePolling(registration);
-	} catch {
-		// Ignore registration failures; app continues online-only.
-	}
-};
-
 attachEditor();
-void setupServiceWorker();
