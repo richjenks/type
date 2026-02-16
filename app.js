@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'type';
-const SW_URL = 'cache.js';
+const SW_URL = 'offline.js';
 
 const debounce = (fn, delay = 200) => {
 	let timeoutId;
@@ -83,7 +83,7 @@ const attachControllerChangeReload = () => {
 
 const requestWaitingActivation = (registration) => {
 	if (registration.waiting) {
-		// Opcode `1` is handled in cache.js message handler as "skip waiting".
+		// Opcode `1` is handled in offline.js message handler as "skip waiting".
 		registration.waiting.postMessage(1);
 	}
 };

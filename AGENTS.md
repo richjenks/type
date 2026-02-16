@@ -9,7 +9,7 @@
 - App type: static, no-build web app.
 - Runtime file `index.html`: single editor UI shell.
 - Runtime file `app.js`: editor behavior, autosave, title sync, Tab handling, service worker registration/update.
-- Runtime file `cache.js`: service worker install/activate/fetch/message lifecycle and offline cache behavior.
+- Runtime file `offline.js`: service worker install/activate/fetch/message lifecycle and offline cache behavior.
 - Runtime file `style.css`: full-screen editor layout and theme variables.
 - Runtime file `manifest.webmanifest`: PWA metadata.
 
@@ -31,7 +31,7 @@
 - If service worker behavior changes materially, bump `CACHE_NAME`.
 
 ## Accepted Tradeoffs
-- The broad runtime cache scope in `cache.js` is intentional for implementation simplicity.
+- The broad runtime cache scope in `offline.js` is intentional for implementation simplicity.
 - The `fetch(request, { cache: 'no-cache' })` strategy is intentional to prioritize freshness and predictable updates.
 - These are known, accepted tradeoffs. Do not raise them as risks or propose changes unless the user explicitly asks to revisit caching strategy.
 - Service worker activation handshake uses magic numeric opcode `1` (`postMessage(1)` -> `event.data === 1`) by design to avoid duplicated string/constant definitions across files.
