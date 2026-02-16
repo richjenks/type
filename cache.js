@@ -83,7 +83,7 @@ self.addEventListener('fetch', (event) => {
 
 	event.respondWith((async () => {
 		try {
-			const networkResponse = await fetch(event.request);
+			const networkResponse = await fetch(event.request, { cache: 'no-cache' });
 			await putInCache(event.request, networkResponse);
 			return networkResponse;
 		} catch {
