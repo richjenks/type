@@ -1,34 +1,9 @@
-const CACHE_NAME = 'type-offline';
-
-const OFFLINE_ASSETS = [
-	'index.html',
-	'style.css',
-	'app.js',
-	'manifest.webmanifest',
-	'favicon.ico',
-	'favicon-32x32.png',
-	'favicon-16x16.png',
-	'apple-touch-icon.png'
-];
-
-const OFFLINE_PATHS = new Set(OFFLINE_ASSETS.map((asset) => `/${asset.replace(/^\.\//, '')}`));
+const CACHE_NAME = 'type-runtime-v2';
 
 const isSameOriginGet = (request) => request.method === 'GET' && new URL(request.url).origin === self.location.origin;
 
-const isCacheableRequest = (request) => {
-	if (request.mode === 'navigate') {
-		return true;
-	}
-
-	const url = new URL(request.url);
-	return OFFLINE_PATHS.has(url.pathname);
-};
-
-self.addEventListener('install', (event) => {
-	event.waitUntil((async () => {
-		const cache = await caches.open(CACHE_NAME);
-		await cache.addAll(OFFLINE_ASSETS);
-	})());
+self.addEventListener('install', () => {
+	self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -50,13 +25,14 @@ self.addEventListener('message', (event) => {
 });
 
 const putInCache = async (request, response) => {
-	if (!response || !response.ok || !isCacheableRequest(request)) {
+	if (!response || !response.ok) {
 		return;
 	}
 
 	const cache = await caches.open(CACHE_NAME);
 
 	if (request.mode === 'navigate') {
+		await cache.put(request, response.clone());
 		await cache.put('index.html', response.clone());
 		return;
 	}
@@ -65,19 +41,19 @@ const putInCache = async (request, response) => {
 };
 
 const fallbackFromCache = async (request) => {
-	if (!isCacheableRequest(request)) {
-		return null;
-	}
-
 	const cache = await caches.open(CACHE_NAME);
 	if (request.mode === 'navigate') {
+		const exactMatch = await cache.match(request);
+		if (exactMatch) {
+			return exactMatch;
+		}
 		return cache.match('index.html');
 	}
 	return cache.match(request);
 };
 
 self.addEventListener('fetch', (event) => {
-	if (!isSameOriginGet(event.request) || !isCacheableRequest(event.request)) {
+	if (!isSameOriginGet(event.request)) {
 		return;
 	}
 

@@ -27,7 +27,7 @@
 - Use vanilla HTML/CSS/JS; do not introduce build tooling unless explicitly requested.
 - Use tabs, never spaces, when indenting code.
 - Preserve accessibility baseline in `index.html` (`lang`, viewport meta, textarea `aria-label`).
-- If cached asset set changes, update `OFFLINE_ASSETS` in `cache.js`.
+- Service worker caches same-origin `GET` requests at runtime; keep request filtering deliberate if changing cache scope.
 - If service worker behavior changes materially, bump `CACHE_NAME`.
 
 ## Execution Rules
@@ -44,6 +44,6 @@
 ## Definition Of Done
 - Requested change is implemented.
 - Invariants in this file remain true.
-- Any service-worker cache list updates are consistent with changed assets.
+- Any service-worker cache policy updates remain consistent with runtime-caching strategy.
 - No unrelated files are modified.
 - Final report states what was changed and what was not validated (manual-only checks).
