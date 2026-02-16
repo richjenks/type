@@ -1,20 +1,20 @@
 <!doctype html>
 <html lang="en">
-		<head>
-			<meta charset="utf-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<title>Type</title>
-			<meta name="description" content="Minimal and private writing space.">
-			<meta name="theme-color" content="#ccd5d7">
-			<link rel="stylesheet" href="style.css">
-			<link rel="icon" href="favicon.ico" sizes="any">
-			<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-			<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-			<link rel="apple-touch-icon" href="apple-touch-icon.png">
-			<link rel="manifest" href="manifest.webmanifest">
-		</head>
-		<body>
-			<textarea autofocus>Type
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Type</title>
+		<meta name="description" content="Minimal and private writing space.">
+		<meta name="theme-color" content="#ccd5d7">
+		<link rel="stylesheet" href="style.css">
+		<link rel="icon" href="favicon.ico" sizes="any">
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+		<link rel="apple-touch-icon" href="apple-touch-icon.png">
+		<link rel="manifest" href="manifest.webmanifest">
+	</head>
+	<body>
+		<textarea autofocus aria-label="Type">Type
 
 Distraction-free writing with offline support
 100% private autosave without login (localStorage)
@@ -24,8 +24,7 @@ https://richjenks.com/dev/type/
 https://github.com/richjenks/type
 
 Just write…
-			</textarea>
-			<script src="app.js"></script>
-			<script>navigator.serviceWorker.register('cache.js');</script>
-		</body>
-	</html>
+		</textarea>
+		<script src="app.js" defer></script>
+	</body>
+</html>
