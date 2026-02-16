@@ -30,6 +30,11 @@
 - Service worker caches same-origin `GET` requests at runtime; keep request filtering deliberate if changing cache scope.
 - If service worker behavior changes materially, bump `CACHE_NAME`.
 
+## Accepted Tradeoffs
+- The broad runtime cache scope in `cache.js` is intentional for implementation simplicity.
+- The `fetch(request, { cache: 'no-cache' })` strategy is intentional to prioritize freshness and predictable updates.
+- These are known, accepted tradeoffs. Do not raise them as risks or propose changes unless the user explicitly asks to revisit caching strategy.
+
 ## Execution Rules
 - Make smallest correct change that satisfies the request.
 - Do not refactor unrelated areas.
