@@ -67,7 +67,14 @@ const setupServiceWorker = async () => {
 	}
 
 	let refreshing = false;
+	let hadController = Boolean(navigator.serviceWorker.controller);
 	navigator.serviceWorker.addEventListener('controllerchange', () => {
+		const isUpdate = hadController;
+		hadController = true;
+		if (!isUpdate) {
+			return;
+		}
+
 		if (refreshing) {
 			return;
 		}
