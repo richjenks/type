@@ -43,10 +43,11 @@ const attachEditor = () => {
 
 	syncTitle(textarea.value);
 
-	const persist = debounce(() => {
+	const commitCurrentText = () => {
 		saveText(textarea.value);
 		syncTitle(textarea.value);
-	}, 200);
+	};
+	const persist = debounce(commitCurrentText, 200);
 
 	textarea.addEventListener('input', persist);
 
@@ -58,14 +59,11 @@ const attachEditor = () => {
 		event.preventDefault();
 		const { selectionStart, selectionEnd } = textarea;
 		textarea.setRangeText('\t', selectionStart, selectionEnd, 'end');
+		commitCurrentText();
 	});
 };
 
-const setupServiceWorker = async () => {
-	if (!('serviceWorker' in navigator)) {
-		return;
-	}
-
+const attachControllerChangeReload = () => {
 	let refreshing = false;
 	let hadController = Boolean(navigator.serviceWorker.controller);
 	navigator.serviceWorker.addEventListener('controllerchange', () => {
@@ -81,36 +79,51 @@ const setupServiceWorker = async () => {
 		refreshing = true;
 		window.location.reload();
 	});
+};
 
-	const requestActivation = (registration) => {
-		if (registration.waiting) {
-			registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+const requestWaitingActivation = (registration) => {
+	if (registration.waiting) {
+		// Opcode `1` is handled in cache.js message handler as "skip waiting".
+		registration.waiting.postMessage(1);
+	}
+};
+
+const watchForServiceWorkerUpdates = (registration) => {
+	registration.addEventListener('updatefound', () => {
+		const installing = registration.installing;
+		if (!installing) {
+			return;
 		}
-	};
+
+		installing.addEventListener('statechange', () => {
+			if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+				requestWaitingActivation(registration);
+			}
+		});
+	});
+};
+
+const startServiceWorkerUpdatePolling = (registration, intervalMs = 60 * 60 * 1000) => {
+	window.setInterval(() => {
+		registration.update().catch(() => {
+			// Keep editor usable if update checks fail temporarily.
+		});
+	}, intervalMs);
+};
+
+const setupServiceWorker = async () => {
+	if (!('serviceWorker' in navigator)) {
+		return;
+	}
+
+	attachControllerChangeReload();
 
 	try {
 		const registration = await navigator.serviceWorker.register(SW_URL);
-		requestActivation(registration);
+		requestWaitingActivation(registration);
 		void registration.update();
-
-		registration.addEventListener('updatefound', () => {
-			const installing = registration.installing;
-			if (!installing) {
-				return;
-			}
-
-			installing.addEventListener('statechange', () => {
-				if (installing.state === 'installed' && navigator.serviceWorker.controller) {
-					requestActivation(registration);
-				}
-			});
-		});
-
-		window.setInterval(() => {
-			registration.update().catch(() => {
-				// Keep editor usable if update checks fail temporarily.
-			});
-		}, 60 * 60 * 1000);
+		watchForServiceWorkerUpdates(registration);
+		startServiceWorkerUpdatePolling(registration);
 	} catch {
 		// Ignore registration failures; app continues online-only.
 	}

@@ -34,6 +34,8 @@
 - The broad runtime cache scope in `cache.js` is intentional for implementation simplicity.
 - The `fetch(request, { cache: 'no-cache' })` strategy is intentional to prioritize freshness and predictable updates.
 - These are known, accepted tradeoffs. Do not raise them as risks or propose changes unless the user explicitly asks to revisit caching strategy.
+- Service worker activation handshake uses magic numeric opcode `1` (`postMessage(1)` -> `event.data === 1`) by design to avoid duplicated string/constant definitions across files.
+- Treat opcode `1` as reserved for "skip waiting"; do not refactor this unless explicitly requested.
 
 ## Execution Rules
 - Make smallest correct change that satisfies the request.

@@ -19,7 +19,8 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('message', (event) => {
-	if (event.data && event.data.type === 'SKIP_WAITING') {
+	// Matches app.js postMessage(1): opcode `1` means "skip waiting".
+	if (event.data === 1) {
 		self.skipWaiting();
 	}
 });
