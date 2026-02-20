@@ -61,19 +61,18 @@ const syncTitle = (text) => {
 
 	// Insert tabs instead of changing focus
 	editor.addEventListener('keydown', (event) => {
-		if (event.key !== 'Tab') return;
+		if (event.key !== 'Tab' && event.key !== 'ISO_Left_Tab') return;
 		event.preventDefault();
 		const { selectionStart, selectionEnd } = editor;
 		let rangeStart = selectionStart;
 		let rangeEnd = selectionEnd;
 		let text = '\t';
 		if (event.shiftKey) {
-			if (selectionStart !== selectionEnd || selectionStart === 0 || editor.value[selectionStart - 1] !== '\t') {
-				return;
+			if (selectionStart === selectionEnd && selectionStart > 0 && editor.value[selectionStart - 1] === '\t') {
+				rangeStart = selectionStart - 1;
+				rangeEnd = selectionStart;
+				text = '';
 			}
-			rangeStart = selectionStart - 1;
-			rangeEnd = selectionStart;
-			text = '';
 		}
 		editor.setRangeText(text, rangeStart, rangeEnd, 'end');
 		commitCurrentText();
