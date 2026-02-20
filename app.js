@@ -64,7 +64,18 @@ const syncTitle = (text) => {
 		if (event.key !== 'Tab') return;
 		event.preventDefault();
 		const { selectionStart, selectionEnd } = editor;
-		editor.setRangeText('\t', selectionStart, selectionEnd, 'end');
+		let rangeStart = selectionStart;
+		let rangeEnd = selectionEnd;
+		let text = '\t';
+		if (event.shiftKey) {
+			if (selectionStart !== selectionEnd || selectionStart === 0 || editor.value[selectionStart - 1] !== '\t') {
+				return;
+			}
+			rangeStart = selectionStart - 1;
+			rangeEnd = selectionStart;
+			text = '';
+		}
+		editor.setRangeText(text, rangeStart, rangeEnd, 'end');
 		commitCurrentText();
 	});
 })();
