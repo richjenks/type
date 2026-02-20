@@ -28,7 +28,7 @@ const saveText = (text) => {
 	}
 };
 
-// Sync page title with first non-empty line
+// Sync page title with first line
 const syncTitle = (text) => {
 	const firstLine = (text.split('\n')[0] || '').trim();
 	document.title = firstLine || 'Type';
