@@ -41,6 +41,7 @@ const attachEditor = () => {
 	}
 
 	syncTitle(textarea.value);
+	textarea.classList.remove('hidden');
 
 	const commitCurrentText = () => {
 		saveText(textarea.value);

@@ -50,6 +50,11 @@ textarea {
 	resize: none;
 }
 
+/* Prevent loading content flash */
+.hidden {
+	visibility: hidden;
+}
+
 /* Note Title */
 textarea:first-line {
 	font-size: var(--phi);
