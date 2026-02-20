@@ -59,22 +59,25 @@ const syncTitle = (text) => {
 	// Save changes as the user types
 	editor.addEventListener('input', debounce(commitCurrentText, 200));
 
-	// Insert tabs instead of changing focus
+	// Tab/Shift+Tab support
 	editor.addEventListener('keydown', (event) => {
 		if (event.key !== 'Tab' && event.key !== 'ISO_Left_Tab') return;
 		event.preventDefault();
-		const { selectionStart, selectionEnd } = editor;
-		let rangeStart = selectionStart;
-		let rangeEnd = selectionEnd;
-		let text = '\t';
-		if (event.shiftKey) {
-			if (selectionStart === selectionEnd && selectionStart > 0 && editor.value[selectionStart - 1] === '\t') {
-				rangeStart = selectionStart - 1;
-				rangeEnd = selectionStart;
-				text = '';
+		const replaceSelection = (text) => {
+			if (document.execCommand('insertText', false, text)) {
+				commitCurrentText();
+				return;
 			}
+			editor.setRangeText(text, editor.selectionStart, editor.selectionEnd, 'end');
+			commitCurrentText();
+		};
+		const { selectionStart, selectionEnd } = editor;
+		if (event.shiftKey && selectionStart === selectionEnd && selectionStart > 0 && editor.value[selectionStart - 1] === '\t') {
+			editor.setSelectionRange(selectionStart - 1, selectionStart);
+			replaceSelection('');
+			return;
 		}
-		editor.setRangeText(text, rangeStart, rangeEnd, 'end');
-		commitCurrentText();
+		// Intentional: Shift+Tab with selection inserts a tab (no block in/outdent)
+		replaceSelection('\t');
 	});
 })();
